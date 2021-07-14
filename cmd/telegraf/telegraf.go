@@ -275,7 +275,6 @@ func formatFullVersion() string {
 }
 
 func isolatedPlugin(name string, configPath string, ID int) {
-
 	c := config.NewConfig()
 	c.IsolatedPlugin = name
 	err := c.LoadConfig(configPath)
@@ -302,7 +301,6 @@ func isolatedPlugin(name string, configPath string, ID int) {
 
 	c.Inputs = inputPlugins
 	c.Outputs = outputPlugins
-
 	// Add [[outputs.file]]
 	if len(c.Inputs) > 0 {
 		c.Outputs = []*models.RunningOutput{}
