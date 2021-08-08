@@ -1,9 +1,13 @@
 
-# Telegraf
+# Modified Telegraf to support offset based timestamps in JSON content
 
-![tiger](TelegrafTiger.png "tiger")
+This modification is useful for MQTT messages received from IoT devices that can't accurately or reliably calculate the current time.
+An IoT device that collects multiple data points over a time period, that is to be transmitted as a single MQTT message, can define the timestamp for each point as an offset from time of sending.
+The JSON input parser, when using offset timestamps,  will assign a timestamp value calculated using the current Telegraf timestamp adjusted with offset value.
 
-[![Circle CI](https://circleci.com/gh/influxdata/telegraf.svg?style=svg)](https://circleci.com/gh/influxdata/telegraf) [![Docker pulls](https://img.shields.io/docker/pulls/library/telegraf.svg)](https://hub.docker.com/_/telegraf/) [![Total alerts](https://img.shields.io/lgtm/alerts/g/influxdata/telegraf.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/influxdata/telegraf/alerts/)
+See [Offset based Timestamps](./timestamp_offsets/timestamp_offset.org) for details on how to build and configure.
+
+# Telegraf [![Circle CI](https://circleci.com/gh/influxdata/telegraf.svg?style=svg)](https://circleci.com/gh/influxdata/telegraf) [![Docker pulls](https://img.shields.io/docker/pulls/library/telegraf.svg)](https://hub.docker.com/_/telegraf/) [![Total alerts](https://img.shields.io/lgtm/alerts/g/influxdata/telegraf.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/influxdata/telegraf/alerts/)
 [![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://www.influxdata.com/slack)
 
 Telegraf is an agent for collecting, processing, aggregating, and writing metrics.
@@ -467,7 +471,6 @@ For documentation on the latest development code see the [documentation index][d
 * [nats](./plugins/outputs/nats)
 * [newrelic](./plugins/outputs/newrelic)
 * [nsq](./plugins/outputs/nsq)
-* [opentelemetry](./plugins/outputs/opentelemetry)
 * [opentsdb](./plugins/outputs/opentsdb)
 * [prometheus](./plugins/outputs/prometheus_client)
 * [riemann](./plugins/outputs/riemann)
@@ -481,6 +484,6 @@ For documentation on the latest development code see the [documentation index][d
 * [udp](./plugins/outputs/socket_writer)
 * [warp10](./plugins/outputs/warp10)
 * [wavefront](./plugins/outputs/wavefront)
-* [websocket](./plugins/outputs/websocket) 
+* [websocket](./plugins/outputs/websocket)
 * [sumologic](./plugins/outputs/sumologic)
 * [yandex_cloud_monitoring](./plugins/outputs/yandex_cloud_monitoring)

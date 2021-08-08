@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/influxdata/telegraf"
@@ -95,6 +96,7 @@ func (p *Parser) parseArray(data []interface{}, timestamp time.Time) ([]telegraf
 }
 
 func (p *Parser) parseObject(data map[string]interface{}, timestamp time.Time) ([]telegraf.Metric, error) {
+	const time_format_offset_prefix = "offset"
 	tags := make(map[string]string)
 	for k, v := range p.defaultTags {
 		tags[k] = v
@@ -128,9 +130,22 @@ func (p *Parser) parseObject(data map[string]interface{}, timestamp time.Time) (
 			return nil, err
 		}
 
-		timestamp, err = internal.ParseTimestamp(p.timeFormat, f.Fields[p.timeKey], p.timezone)
-		if err != nil {
-			return nil, err
+		// if timeformat start with offset, use offset based timestamp
+		if strings.HasPrefix(p.timeFormat, time_format_offset_prefix) {
+			var offset_val string = f.Fields[p.timeKey].(string)
+			var offset, err = time.ParseDuration(offset_val)
+			// log.Printf("JSON offset addition : %T, %T, %s", f.Fields[p.timeKey], offset_val, offset_val)
+			if err == nil {
+				timestamp = time.Now().Add(offset)
+			} else {
+				err := fmt.Errorf("JSON offset based timeKey value parseDuration error: %s", err)
+				return nil, err
+			}
+		} else {
+			timestamp, err = internal.ParseTimestamp(p.timeFormat, f.Fields[p.timeKey], p.timezone)
+			if err != nil {
+				return nil, err
+			}
 		}
 
 		delete(f.Fields, p.timeKey)

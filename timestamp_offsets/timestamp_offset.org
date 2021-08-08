@@ -1,0 +1,39 @@
+* Offset based Timestamp
+- Modification to JSON input plugin to provide offset based timestamps
+- This modification allows timestamp to be calculated using an offset value relative to the timestamp at time of processing
+- To configure, set json_time_format to value "offset". Once set values, content of the json_time_key are expected to contain an offset value.
+  Offset can be any valid go time.Duration format accepted by parseDuraton, e.g. "-100s".
+  Example config for telegraf.conf:
+#+begin_src json
+data_format = "json"
+json_time_key = "timestamp"
+json_time_format = "offset"
+#+end_src
+
+* Steps to build telefraph with docker go image
+** Pull docker go image
+#+begin_src shell
+docker pull golang:1.16.6-buster
+#+end_src
+
+** clone telegraf git repo
+#+begin_src shell
+git clone https://github.com/webx007/telegraf.git
+# create new local branch of v1.19.2 release
+git checkout -b mytelegraf v1.19.2
+#+end_src
+
+** Specify go settings
+create/edit docker_build.env file with build settings in the root of the telegraf src folder.
+
+** run build:
+from telegraf src directory run:
+#+begin_src shell
+mkdir ../gopkg
+docker run -it -v "$PWD":/usr/src/myapp -v "$PWD"/../gopkg:/go/pkg --env-file docker_build.env -w /usr/src/myapp golang:1.16 make
+#+end_src
+
+* Examples
+
+** Basic telegraf config for timestamp offsets, see [[file:telegraf.conf][telegraf.conf]]
+** Dockerfile to build new telegraf image, see [[file:Dockerfile][Dockerfile]]
