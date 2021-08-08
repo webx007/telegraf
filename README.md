@@ -5,7 +5,7 @@ This modification is useful for MQTT messages received from IoT devices that can
 An IoT device that collects multiple data points over a time period, that is to be transmitted as a single MQTT message, can define the timestamp for each point as an offset from time of sending.
 The JSON input parser, when using offset timestamps,  will assign a timestamp value calculated using the current Telegraf timestamp adjusted with offset value.
 
-See [Offset based Timestamps](./timestamp_offset.org) for details on how to build and configure.
+See [Offset based Timestamps](./timestamp_offsets/timestamp_offset.org) for details on how to build and configure.
 
 # Telegraf [![Circle CI](https://circleci.com/gh/influxdata/telegraf.svg?style=svg)](https://circleci.com/gh/influxdata/telegraf) [![Docker pulls](https://img.shields.io/docker/pulls/library/telegraf.svg)](https://hub.docker.com/_/telegraf/) [![Total alerts](https://img.shields.io/lgtm/alerts/g/influxdata/telegraf.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/influxdata/telegraf/alerts/)
 [![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://www.influxdata.com/slack)
